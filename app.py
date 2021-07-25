@@ -14,7 +14,7 @@ def load_data(name):
 
 files = os.listdir('data')
 data0 = load_data(files[0])
-data2 = load_data(files[2])
+data1 = load_data(files[1])
 
 def home(title):
     st.title("IMDB Movie Data Analysis")
@@ -67,19 +67,18 @@ def page2(title):
 
     if choice ==  choices[2]:
         col[0].header("Pie chart of Genres")
-        fig = go.Figure(data = [go.Sunburst(
-            labels = ["Comedy", "Romance", "Fantasy", "Crime", "Drama", "Adventure", "Mystrey", "Action", "Thriller", "History", "Biography"],
+        fig = px.pie(
+            names = ["Comedy", "Romance", "Fantasy", "Crime", "Drama", "Adventure", "Mystrey", "Action", "Thriller", "History", "Biography"],
             values = [640, 890, 207, 455, 700, 205, 110, 67, 45, 80, 50]
-        )])
-        fig.show()
+        )
         col[0].plotly_chart(fig)
 
 def page3(title):
     st.title(title)
-    df = data2
+    df = data1
     if st.sidebar.checkbox("Show Raw Data"):
         st.write("")
-        row_size = st.sidebar.slider('size of records',value=10, min_value=0, max_value=data.shape[0])
+        row_size = st.sidebar.slider('size of records',value=10, min_value=0, max_value=df.shape[0])
         st.write(df.head(row_size))
         st.markdown("<hr>", unsafe_allow_html=True)
 
@@ -112,10 +111,10 @@ pages = {
 page = st.sidebar.radio("Navigate through pages",list(pages.keys()))
 pages[page](page)
 
-"""
-st.header("Celebrity Bio")
-fig = px.scatter_matrix(data,
-      dimensions=["spouses", "divorces", "children"],
-      )
-st.plotly_chart(fig)
-"""
+# depracated
+def page4(title):
+    st.header("Celebrity Bio")
+    fig = px.scatter_matrix(data,
+          dimensions=["spouses", "divorces", "children"],
+          )
+    st.plotly_chart(fig)
